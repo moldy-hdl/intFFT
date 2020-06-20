@@ -3,16 +3,31 @@
 function mul_output = intMul(a,x)
         % the lifting scheme (three steps) (8)
         c = real(a);  s = imag(a); % initized
-        yr = real(x); yi = imag(x); 
-        for i=1:length(x)
-            if s(i) == 0
-                yr(i) = yr(i) * c(i); yi(i) = yi(i) *c(i);
-            else
-                yr(i) = yr(i) + yi(i)*(c(i)-1)/s(i); % step1
-                yi(i) = yi(i) + yr(i)*s(i); % step2
-                yr(i) = yr(i) + yi(i)*(c(i)-1)/s(i); %step3
+        yr = real(x); yi = imag(x);
+        
+        if c < 0
+            for i=1:length(x)
+                if s(i) == 0
+                    yr(i) = yr(i) * c(i); yi(i) = yi(i) *c(i);
+                else
+                    yr(i) = yr(i) + yi(i)*(c(i)-1)/s(i); % step1
+                    yi(i) = yi(i) + yr(i)*s(i); % step2
+                    yr(i) = yr(i) + yi(i)*(c(i)-1)/s(i); %step3
+                end
+            end
+        else
+            for i=1:length(x)
+                if s(i) == 0
+                    yr(i) = yr(i) * c(i); yi(i) = yi(i) *c(i);
+                else
+                    yr(i) = yr(i) + yi(i)*(c(i)+1)/s(i); % step1
+                    yi(i) = yi(i) + yr(i)*(-s(i)); % step2
+                    yr(i) = yr(i) + yi(i)*(c(i)+1)/s(i); %step3
+                    yr(i) = -1 * yr(i); yi(i) = -1 * yi(i);
+                end
             end
         end
+        
 %         if s == 0
 %             yr = yr * c; yi = yi *c;
 %         else
