@@ -27,14 +27,13 @@ function ifft_output = intIFFT(x)
             A1(1,:) = [ifft_comb1(1,:)]; A1(2,:) = [ifft_comb1(2,:)];
             
             if  n == 8
-                A1(3,:) = m2v( intMul (WN, intIFFT(y_shape(3,:)) ) );
-                A1(4,:) = m2v( intMul( WN.^3, intIFFT(y_shape(4,:)) ) );
+                
             else
-                A1tmp1 = intIFFT(y_shape(3,:));
-                A1(3,:) = [A1tmp1(1,1:n/16) A1tmp1(2,1:n/16) A1tmp1(1,n/16+1:end) A1tmp1(2,n/16+1:end)]; A1(3,:) = intMul (WN, A1(3,:) );
-                A1tmp2 = intIFFT(y_shape(4,:));
-                A1(4,:) = [A1tmp2(1,1:n/16) A1tmp2(2,1:n/16) A1tmp2(1,n/16+1:end) A1tmp2(2,n/16+1:end)]; A1(4,:) = intMul( WN.^3, A1(4,:) );
-            end
+                
+            A1tmp = intMul (WN, intIFFT(y_shape(3,:)) );
+            A1(3,:) = [A1tmp(1,1:n/16) A1tmp(2,1:n/16) A1tmp(1,1:n/16) A1tmp(1,1:n/16)];
+            A1(3,:) = m2v(  );
+            A1(4,:) = m2v( intMul( WN.^3, intIFFT(y_shape(4,:)) ) );
         end
         
         A2 = B2_tran * [A1(3,:); A1(4,:)] .* 1/2; % ÄæB2

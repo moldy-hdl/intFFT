@@ -10,11 +10,11 @@ function fft_output = intFFT(x)
     elseif n == 2
         fft_output = [y(1)+y(2); y(1)-y(2)];
     elseif mod(n,2) == 0
-        y_shape = reshape(y,[],4).';
-        WN = exp(-2*1i*pi/n).^(0:floor(n/4)-1);
+        y_shape = reshape(y,[],4).'; % 整合输入
+        WN = exp(-2*1i*pi/n).^(0:floor(n/4)-1); % W for each step
         
-        A1 = B1 * [y_shape(1,:); y_shape(3,:)]; A1_n4 = B1 * [y_shape(2,:) ; y_shape(4,:)];
-        A2 = B2 * [A1(2,:); A1_n4(2,:)];
+        A1 = B1 * [y_shape(1,:); y_shape(3,:)]; A1_n4 = B1 * [y_shape(2,:) ; y_shape(4,:)]; % B1蝶形网络
+        A2 = B2 * [A1(2,:); A1_n4(2,:)]; % N/4点DFT中B2网络
         fft_decompn = intFFT([A1(1,:); A1_n4(1,:)]);
         
 %         if n == 4
